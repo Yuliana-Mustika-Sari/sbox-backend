@@ -1,4 +1,4 @@
-from analyzer.nonlinearity import nonlinearity
+from analyzer.nl import nonlinearity
 from analyzer.sac import sac
 from analyzer.du import differential_uniformity
 from analyzer.bic import bic_nl, bic_sac

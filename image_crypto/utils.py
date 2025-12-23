@@ -44,3 +44,19 @@ def uaci(a, b):
     diff = np.abs(A - B).sum()
     total = A.size * 255
     return (diff / total) * 100.0
+
+def image_histogram_rgb(img_array):
+    """
+    img_array: shape (H, W, 3)
+    return: dict { r: [...], g: [...], b: [...] }
+    """
+    hist_r = np.histogram(img_array[:, :, 0], bins=256, range=(0, 256))[0]
+    hist_g = np.histogram(img_array[:, :, 1], bins=256, range=(0, 256))[0]
+    hist_b = np.histogram(img_array[:, :, 2], bins=256, range=(0, 256))[0]
+
+    return {
+        "r": hist_r.tolist(),
+        "g": hist_g.tolist(),
+        "b": hist_b.tolist()
+    }
+

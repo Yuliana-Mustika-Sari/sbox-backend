@@ -5,7 +5,7 @@ from PIL import Image
 
 
 from analyzer.main import analyze_sbox
-from analyzer.nonlinearity import nonlinearity as analyze_nl
+from analyzer.nl import nonlinearity as analyze_nl
 from analyzer.sac import sac as analyze_sac
 from analyzer.du import differential_uniformity as analyze_du
 from analyzer.bic import bic_nl as analyze_bic_nl, bic_sac as analyze_bic_sac
@@ -16,7 +16,7 @@ from analyzer.to import transparency_order as analyze_to
 from analyzer.ci import correlation_immunity as analyze_ci
 from image_crypto.encrypt import encrypt_image
 from image_crypto.decrypt import decrypt_image
-from image_crypto.utils import image_to_array, array_to_image, entropy, npcr, uaci
+from image_crypto.utils import image_to_array, array_to_image, entropy, npcr, uaci , image_histogram_rgb
 
 
 app = Flask(__name__)
@@ -166,6 +166,9 @@ def encrypt_image_api():
     n = npcr(plain, cipher)
     u = uaci(plain, cipher)
 
+    plain_hist = image_histogram_rgb(plain)
+    cipher_hist = image_histogram_rgb(cipher)
+
     out_img = array_to_image(cipher)
     buf = io.BytesIO()
     out_img.save(buf, format="PNG")
@@ -176,7 +179,9 @@ def encrypt_image_api():
         "cipher_image": cipher_b64,
         "entropy": round(ent, 4),
         "npcr": round(n, 2),
-        "uaci": round(u, 2)
+        "uaci": round(u, 2),
+        "plain_hist": plain_hist,
+        "cipher_hist": cipher_hist
     })
 
 
